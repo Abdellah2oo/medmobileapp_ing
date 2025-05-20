@@ -16,7 +16,9 @@ class DoctorsScreen extends StatelessWidget {
           final doctor = doctors[index];
           return Card(
             margin: const EdgeInsets.all(12),
-            color: const Color(0xFFE5EDFF),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? const Color(0xFF23262F)
+                : const Color(0xFFE5EDFF),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             child: ListTile(
               contentPadding: const EdgeInsets.all(16),
@@ -24,8 +26,19 @@ class DoctorsScreen extends StatelessWidget {
                 radius: 30,
                 backgroundImage: AssetImage(doctor.imageUrl),
               ),
-              title: Text(doctor.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-              subtitle: Text(doctor.specialty),
+              title: Text(
+                doctor.name,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                ),
+              ),
+              subtitle: Text(
+                doctor.specialty,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7) ?? Colors.grey,
+                ),
+              ),
               trailing: ElevatedButton(
                 onPressed: () {
                   Navigator.push(

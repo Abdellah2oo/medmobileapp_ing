@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medmobileapp_ing/models/doctor.dart';
 import 'package:medmobileapp_ing/screens/doctor_info_screen.dart';
 import 'package:medmobileapp_ing/screens/doctors.dart';
+import 'package:medmobileapp_ing/screens/profile.dart';
 
 // ——— بيانات الأطباء ———
 final List<Doctor> doctors = [
@@ -53,32 +54,41 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const DoctorsScreen(),
-    // const AppointmentPage(),
-    // const ProfilePage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          // Navigation logic for each tab
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => DoctorsScreen()),
+            );
+          }
+          // Add navigation for other tabs as needed
+          // Example:
+          // else if (index == 2) {
+          //   Navigator.push(context, MaterialPageRoute(builder: (_) => AppointmentScreen()));
+          // }
+          else if (index == 3) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => ProfileScreen()));
+          }
+        },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_search_rounded), label: "Doctors"),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Appointment"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_search_rounded), label: "Doctors"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today), label: "Appointment"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
@@ -93,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   InkWell(
                     onTap: () {
                       //print("فتح صفحة البروفايل");
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen()));
                     },
                     child: const CircleAvatar(
                       radius: 24,
@@ -202,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Colors.white,
+                      color: isSelected ? Colors.blue : Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.blue.shade100),
                     ),
@@ -210,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       dates[index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
+                        color: isSelected ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).textTheme.bodyLarge?.color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -227,25 +237,45 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFE9EEFF),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF23262F)
+                      : const Color(0xFFE9EEFF),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("10 AM",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16)),
-                    SizedBox(height: 4),
-                    Text("Dr. Olivia Turner, M.D."),
-                    SizedBox(height: 4),
+                    Text(
+                      "10 AM",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Dr. Olivia Turner, M.D.",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
                     Text(
                       "Treatment and prevention of skin and photodermatitis.",
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white70
+                            : Colors.black54,
+                      ),
                     ),
                     Align(
                       alignment: Alignment.bottomRight,
-                      child: Icon(Icons.close, size: 20),
+                      child: Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Theme.of(context).iconTheme.color,
+                      ),
                     ),
                   ],
                 ),
@@ -271,6 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // 📦 عنصر واجهة لعرض بطاقة دكتور
   Widget doctorCard(BuildContext context, Doctor doctor) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return InkWell(
       onTap: () {
         // الانتقال إلى صفحة تفاصيل الدكتور
@@ -286,7 +317,9 @@ class _HomeScreenState extends State<HomeScreen> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF3F6FD),
+          color: isDark
+              ? const Color(0xFF23262F)
+              : const Color(0xFFF3F6FD), // <-- updated
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -304,14 +337,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   // اسم الدكتور
                   Text(
                     doctor.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                    ),
                   ),
                   const SizedBox(height: 4),
 
                   // التخصص
                   Text(
                     doctor.specialty,
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(
+                      color: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.color
+                              ?.withOpacity(0.7) ??
+                          Colors.grey,
+                    ),
                   ),
                   const SizedBox(height: 6),
 
@@ -322,19 +365,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(width: 4),
                       Text(
                         "${doctor.rating}",
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       const Icon(Icons.people, color: Colors.grey, size: 16),
                       const SizedBox(width: 4),
-                      Text("${doctor.reviews}"),
+                      Text(
+                        "${doctor.reviews}",
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                      ),
 
                       const Spacer(),
 
                       // أيقونة المفضلة والاستفسار
-                      const Icon(Icons.favorite_border),
+                      Icon(Icons.favorite_border,
+                          color: Theme.of(context).iconTheme.color),
                       const SizedBox(width: 6),
-                      const Icon(Icons.help_outline),
+                      Icon(Icons.help_outline,
+                          color: Theme.of(context).iconTheme.color),
                     ],
                   )
                 ],

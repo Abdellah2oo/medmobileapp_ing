@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+
+@immutable
 class Doctor {
   final String name;
   final String specialty;
@@ -7,7 +10,7 @@ class Doctor {
   final String experience;
   final String schedule;
 
-  Doctor({
+  const Doctor({
     required this.name,
     required this.specialty,
     required this.rating,
@@ -16,4 +19,30 @@ class Doctor {
     required this.experience,
     required this.schedule,
   });
+
+  // Factory constructor for JSON deserialization
+  factory Doctor.fromJson(Map<String, dynamic> json) {
+    return Doctor(
+      name: json['name'] as String,
+      specialty: json['specialty'] as String,
+      rating: (json['rating'] as num).toDouble(),
+      reviews: json['reviews'] as int,
+      imageUrl: json['imageUrl'] as String,
+      experience: json['experience'] as String,
+      schedule: json['schedule'] as String,
+    );
+  }
+
+  // Method for JSON serialization
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'specialty': specialty,
+      'rating': rating,
+      'reviews': reviews,
+      'imageUrl': imageUrl,
+      'experience': experience,
+      'schedule': schedule,
+    };
+  }
 }
