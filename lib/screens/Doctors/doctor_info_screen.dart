@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/doctor.dart';
+import 'package:medmobileapp_ing/screens/Doctors/shedule_screen.dart';
+import '../../models/doctor.dart';
 
 class DoctorInfoScreen extends StatelessWidget {
   final Doctor doctor;
@@ -88,6 +89,10 @@ class DoctorInfoScreen extends StatelessWidget {
             // زر جدولة موعد
             ElevatedButton.icon(
               onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ScheduleAppointmentWidget(doctor: doctor,)),
+                );
                 // هنا ممكن تفتح صفحة جدولة موعد لاحقاً
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Schedule Appointment Clicked')),

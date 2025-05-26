@@ -25,7 +25,7 @@ class MainApp extends ConsumerWidget {
         scaffoldBackgroundColor: const Color(0xFF181A20), // Dark background
       ),
       themeMode: themeMode,
-      home: const HomeScreen(),
+      home:  const HomeScreen(),
     );
   }
 }

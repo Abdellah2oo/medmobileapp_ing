@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:medmobileapp_ing/models/doctor.dart';
-import 'package:medmobileapp_ing/screens/doctor_info_screen.dart';
-import 'package:medmobileapp_ing/screens/doctors.dart';
-import 'package:medmobileapp_ing/screens/profile.dart';
+import 'package:medmobileapp_ing/screens/Doctors/doctor_info_screen.dart';
+import 'package:medmobileapp_ing/screens/Doctors/doctors.dart';
+import 'package:medmobileapp_ing/screens/Profile&Settings/profile.dart';
+
+import 'appointments_screen.dart';
+import 'Profile&Settings/settings_screen.dart';
 
 // ——— بيانات الأطباء ———
 final List<Doctor> doctors = [
@@ -52,8 +55,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,24 +62,19 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
+        currentIndex: 0,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          setState(() {});
           // Navigation logic for each tab
           if (index == 1) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => DoctorsScreen()),
             );
-          }
-          // Add navigation for other tabs as needed
-          // Example:
-          // else if (index == 2) {
-          //   Navigator.push(context, MaterialPageRoute(builder: (_) => AppointmentScreen()));
-          // }
-          else if (index == 3) {
+          } else if (index == 2) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (_) => AppointmentsScreen()));
+          } else if (index == 3) {
             Navigator.push(
                 context, MaterialPageRoute(builder: (_) => ProfileScreen()));
           }
@@ -88,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.person_search_rounded), label: "Doctors"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: "Appointment"),
+              icon: Icon(Icons.calendar_month), label: "Appointment"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
@@ -103,7 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   InkWell(
                     onTap: () {
                       //print("فتح صفحة البروفايل");
-                      Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileScreen()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => ProfileScreen()));
                     },
                     child: const CircleAvatar(
                       radius: 24,
@@ -135,8 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
-                      //  print("فتح الإعدادات");
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (_) => SettingsScreen()));
                     },
                   ),
                 ],
@@ -212,7 +209,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 50,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: isSelected ? Colors.blue : Theme.of(context).scaffoldBackgroundColor,
+                      color: isSelected
+                          ? Colors.blue
+                          : Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: Colors.blue.shade100),
                     ),
@@ -220,7 +219,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       dates[index],
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: isSelected ? Theme.of(context).scaffoldBackgroundColor : Theme.of(context).textTheme.bodyLarge?.color,
+                        color: isSelected
+                            ? Theme.of(context).scaffoldBackgroundColor
+                            : Theme.of(context).textTheme.bodyLarge?.color,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

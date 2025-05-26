@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../main.dart'; // Import where themeProvider is defined
+import 'package:medmobileapp_ing/screens/Profile&Settings/settings_screen.dart';
+import '../../main.dart'; // Import where themeProvider is defined
 import 'edit_profile.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -80,7 +81,11 @@ class ProfileScreen extends ConsumerWidget {
           _ProfileMenuItem(
             icon: Icons.settings_outlined,
             text: 'Settings',
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              );
+            },
           ),
           // Theme Switcher
           ListTile(
@@ -114,7 +119,70 @@ class ProfileScreen extends ConsumerWidget {
           _ProfileMenuItem(
             icon: Icons.logout,
             text: 'Logout',
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  title: const Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: Color(0xFF3B5AFB),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  content: const Text(
+                    'are you sure you want to log out?',
+                    textAlign: TextAlign.center,
+                  ),
+                  actionsAlignment: MainAxisAlignment.center,
+                  actions: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white10
+                                  : const Color(0xFFE9EEFF),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel', style: TextStyle(color: Color(0xFF3B5AFB), fontSize: 16)),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(0xFF3B5AFB),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).popUntil((route) => route.isFirst);
+                              // Add your logout logic here if needed
+                            },
+                            child: const Text('Yes, Logout', style: TextStyle(color: Colors.white, fontSize: 16)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
