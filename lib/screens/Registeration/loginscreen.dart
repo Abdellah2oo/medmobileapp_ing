@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kLightBottomBar,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -37,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                    color: kPrimaryBlue,
                   ),
                 ),
               ),
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+                  color: kPrimaryBlue,
                 ),
               ),
               const SizedBox(height: 16),
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   hintText: 'example@example.com',
                   filled: true,
-                  fillColor: const Color(0xFFE9EEFF),
+                  fillColor: kLightCard,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -82,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: !passwordVisible,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: const Color(0xFFE9EEFF),
+                      fillColor: kLightCard,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -110,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {},
                   child: const Text(
                     "Forget Password",
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: kPrimaryBlue),
                   ),
                 ),
               ),
@@ -119,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: kPrimaryBlue,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 100,
                       vertical: 14,
@@ -142,8 +143,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {},
                   child: const CircleAvatar(
                     radius: 28,
-                    backgroundColor: Color(0xFFE9EEFF),
-                    child: Icon(Icons.fingerprint, size: 32, color: Colors.blue),
+                    backgroundColor: kLightCard,
+                    child: Icon(Icons.fingerprint, size: 32, color: kPrimaryBlue),
                   ),
                 ),
               ),
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           TextSpan(
                             text: "Sign Up",
                             style: TextStyle(
-                              color: Colors.blue,
+                              color: kPrimaryBlue,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

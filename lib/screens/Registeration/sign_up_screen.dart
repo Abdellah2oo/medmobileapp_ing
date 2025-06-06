@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -42,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue,
+                    color: kPrimaryBlue,
                   ),
                 ),
               ),
@@ -112,7 +113,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: customTextField(
                     controller: dobController,
                     hint: 'DD / MM / YYYY',
-                    hintColor: Colors.blue,
+                    hintColor: kPrimaryBlue,
                   ),
                 ),
               ),
@@ -127,12 +128,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     children: [
                       TextSpan(
                         text: "Terms of Use ",
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: kPrimaryBlue),
                       ),
                       TextSpan(text: "and "),
                       TextSpan(
                         text: "Privacy Policy.",
-                        style: TextStyle(color: Colors.blue),
+                        style: TextStyle(color: kPrimaryBlue),
                       ),
                     ],
                   ),
@@ -147,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: ElevatedButton(
                   onPressed: _signUpUser, // 🚀 استدعاء دالة التسجيل
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+                    backgroundColor: kPrimaryBlue,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 100, vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -175,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: [
                         TextSpan(
                           text: "Log in",
-                          style: TextStyle(color: Colors.blue),
+                          style: TextStyle(color: kPrimaryBlue),
                         ),
                       ],
                     ),
@@ -235,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hintText: hint,
         hintStyle: TextStyle(color: hintColor),
         filled: true,
-        fillColor: const Color(0xFFE9EEFF),
+        fillColor: kLightCard,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide.none,

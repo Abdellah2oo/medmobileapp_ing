@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medmobileapp_ing/screens/Doctors/shedule_screen.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 import '../../models/doctor.dart';
 
 class DoctorInfoScreen extends StatelessWidget {
@@ -102,8 +103,8 @@ class DoctorInfoScreen extends StatelessWidget {
               label: const Text('Schedule Appointment',
                   style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 34, 96, 255),
-                iconColor: Colors.white,
+                backgroundColor: kPrimaryBlue,
+                iconColor: kDarkText,
                 minimumSize: const Size(30, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(22),

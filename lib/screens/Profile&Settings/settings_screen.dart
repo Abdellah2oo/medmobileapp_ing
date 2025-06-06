@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 
+import '../../main.dart'; // Import where themeProvider is defined
 import 'notification_settings_screen.dart';
 import 'password_manager_screen.dart';
 
@@ -15,14 +17,14 @@ class SettingsScreen extends ConsumerWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF3B5AFB)),
+          icon: const Icon(Icons.arrow_back, color: kPrimaryBlue),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: const Text(
           'Settings',
           style: TextStyle(
-            color: Color(0xFF3B5AFB),
+            color: kPrimaryBlue,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -49,6 +51,24 @@ class SettingsScreen extends ConsumerWidget {
               );
             },
           ),
+          // Dark Mode Switch
+          ListTile(
+            leading: Icon(Icons.dark_mode, color: kPrimaryBlue),
+            title: Text(
+              'Dark Mode',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+              ),
+            ),
+            trailing: Switch(
+              value: ref.watch(themeProvider) == ThemeMode.dark,
+              onChanged: (value) {
+                ref.read(themeProvider.notifier).toggleTheme();
+              },
+              activeColor: kPrimaryBlue,
+            ),
+          ),
           _SettingsItem(
             icon: Icons.person,
             text: 'Delete Account',
@@ -63,7 +83,7 @@ class SettingsScreen extends ConsumerWidget {
                   title: const Text(
                     'Delete Account',
                     style: TextStyle(
-                      color: Color(0xFF3B5AFB),
+                      color: kPrimaryBlue,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ),
@@ -83,21 +103,21 @@ class SettingsScreen extends ConsumerWidget {
                             style: TextButton.styleFrom(
                               backgroundColor: Theme.of(context).brightness == Brightness.dark
                                   ? Colors.white10
-                                  : const Color(0xFFE9EEFF),
+                                  : kLightCard,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                             onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Cancel', style: TextStyle(color: Color(0xFF3B5AFB), fontSize: 16)),
+                            child: const Text('Cancel', style: TextStyle(color: kPrimaryBlue, fontSize: 16)),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFF3B5AFB),
+                              backgroundColor: kPrimaryBlue,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
@@ -107,7 +127,7 @@ class SettingsScreen extends ConsumerWidget {
                               Navigator.of(context).popUntil((route) => route.isFirst);
                               // Add your delete logic here if needed
                             },
-                            child: const Text('Yes, Delete', style: TextStyle(color: Colors.white, fontSize: 16)),
+                            child: const Text('Yes, Delete', style: TextStyle(color: kDarkText, fontSize: 16)),
                           ),
                         ),
                       ],
@@ -137,7 +157,7 @@ class _SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: Color(0xFF3B5AFB)),
+      leading: Icon(icon, color: kPrimaryBlue),
       title: Text(
         text,
         style: TextStyle(
@@ -145,7 +165,7 @@ class _SettingsItem extends StatelessWidget {
           color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+      trailing: const Icon(Icons.chevron_right, color: kUnselectedGrey),
       onTap: onTap,
     );
   }

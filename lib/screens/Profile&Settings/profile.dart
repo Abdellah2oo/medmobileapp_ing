@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 import 'package:medmobileapp_ing/screens/Profile&Settings/settings_screen.dart';
-import '../../main.dart'; // Import where themeProvider is defined
 import 'edit_profile.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -9,22 +9,20 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(themeProvider) == ThemeMode.dark;
-
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF3B5AFB)),
+          icon: const Icon(Icons.arrow_back, color: kPrimaryBlue),
           onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: const Text(
           'My Profile',
           style: TextStyle(
-            color: Color(0xFF3B5AFB),
+            color: kPrimaryBlue,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -47,7 +45,7 @@ class ProfileScreen extends ConsumerWidget {
                   right: 4,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF3B5AFB),
+                      color: kPrimaryBlue,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 2),
                     ),
@@ -87,30 +85,6 @@ class ProfileScreen extends ConsumerWidget {
               );
             },
           ),
-          // Theme Switcher
-          ListTile(
-            leading: CircleAvatar(
-              backgroundColor: const Color(0xFF3B5AFB).withOpacity(0.15),
-              child: Icon(
-                isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                color: const Color(0xFF3B5AFB),
-              ),
-            ),
-            title: Text(
-              'Dark Mode',
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
-            ),
-            trailing: Switch(
-              value: isDarkMode,
-              onChanged: (value) {
-                ref.read(themeProvider.notifier).toggleTheme();
-              },
-              activeColor: const Color(0xFF3B5AFB),
-            ),
-          ),
           _ProfileMenuItem(
             icon: Icons.help_outline,
             text: 'Help',
@@ -130,7 +104,7 @@ class ProfileScreen extends ConsumerWidget {
                   title: const Text(
                     'Logout',
                     style: TextStyle(
-                      color: Color(0xFF3B5AFB),
+                      color: kPrimaryBlue,
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ),
@@ -150,21 +124,21 @@ class ProfileScreen extends ConsumerWidget {
                             style: TextButton.styleFrom(
                               backgroundColor: Theme.of(context).brightness == Brightness.dark
                                   ? Colors.white10
-                                  : const Color(0xFFE9EEFF),
+                                  : kLightCard,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
                               padding: const EdgeInsets.symmetric(vertical: 12),
                             ),
                             onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Cancel', style: TextStyle(color: Color(0xFF3B5AFB), fontSize: 16)),
+                            child: const Text('Cancel', style: TextStyle(color: kPrimaryBlue, fontSize: 16)),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              backgroundColor: const Color(0xFF3B5AFB),
+                              backgroundColor: kPrimaryBlue,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18),
                               ),
@@ -174,7 +148,7 @@ class ProfileScreen extends ConsumerWidget {
                               Navigator.of(context).popUntil((route) => route.isFirst);
                               // Add your logout logic here if needed
                             },
-                            child: const Text('Yes, Logout', style: TextStyle(color: Colors.white, fontSize: 16)),
+                            child: const Text('Yes, Logout', style: TextStyle(color: kDarkText, fontSize: 16)),
                           ),
                         ),
                       ],
@@ -205,8 +179,8 @@ class _ProfileMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: const Color(0xFF3B5AFB).withOpacity(0.15),
-        child: Icon(icon, color: const Color(0xFF3B5AFB)),
+        backgroundColor: kPrimaryBlue.withOpacity(0.15),
+        child: Icon(icon, color: kPrimaryBlue),
       ),
       title: Text(
         text,
@@ -215,7 +189,7 @@ class _ProfileMenuItem extends StatelessWidget {
           color: Theme.of(context).textTheme.bodyLarge?.color,
         ),
       ),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+      trailing: const Icon(Icons.chevron_right, color: kUnselectedGrey),
       onTap: onTap,
     );
   }

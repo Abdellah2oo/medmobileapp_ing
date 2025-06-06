@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:medmobileapp_ing/screens/Doctors/doctors.dart';
-import 'package:medmobileapp_ing/screens/home_screen.dart';
 import '../../models/doctor.dart';
 
 // Providers for selected states

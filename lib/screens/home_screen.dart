@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:medmobileapp_ing/app_colors.dart';
 import 'package:medmobileapp_ing/models/doctor.dart';
 import 'package:medmobileapp_ing/screens/Doctors/doctor_info_screen.dart';
 import 'package:medmobileapp_ing/screens/Doctors/doctors.dart';
 import 'package:medmobileapp_ing/screens/Profile&Settings/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'appointments_screen.dart';
 import 'Profile&Settings/settings_screen.dart';
@@ -11,6 +13,7 @@ import 'Profile&Settings/settings_screen.dart';
 final List<Doctor> doctors = [
   Doctor(
     name: "Dr. Alexander Bennett, Ph.D.",
+    sex: 'M',
     specialty: "Dermato-Genetics",
     rating: 5,
     reviews: 40,
@@ -20,6 +23,7 @@ final List<Doctor> doctors = [
   ),
   Doctor(
     name: "Dr. Michael Davidson, M.D.",
+    sex: 'M',
     specialty: "Solar Dermatology",
     rating: 4.8,
     reviews: 30,
@@ -29,6 +33,7 @@ final List<Doctor> doctors = [
   ),
   Doctor(
     name: "Dr. Olivia Turner, M.D.",
+    sex: 'F',
     specialty: "Dermato-Endocrinology",
     rating: 5,
     reviews: 60,
@@ -38,6 +43,7 @@ final List<Doctor> doctors = [
   ),
   Doctor(
     name: "Dr. Sophia Martinez, Ph.D.",
+    sex: 'F',
     specialty: "Cosmetic Bioengineering",
     rating: 5,
     reviews: 150,
@@ -55,13 +61,49 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Set<String> favoriteDoctorNames = {};
+  String? selectedFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavorites();
+  }
+
+  Future<void> _loadFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      favoriteDoctorNames = prefs.getStringList('favoriteDoctors')?.toSet() ?? {};
+    });
+  }
+
+  Future<void> _toggleFavorite(String doctorName) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      if (favoriteDoctorNames.contains(doctorName)) {
+        favoriteDoctorNames.remove(doctorName);
+      } else {
+        favoriteDoctorNames.add(doctorName);
+      }
+      prefs.setStringList('favoriteDoctors', favoriteDoctorNames.toList());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // فلترة الأطباء إذا كان الفلتر مفعّل
+    List<Doctor> filteredDoctors = doctors.where((doctor) {
+      if (selectedFilter == 'fav') {
+        return favoriteDoctorNames.contains(doctor.name);
+      }
+      return true;
+    }).toList();
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: kPrimaryBlue,
+        unselectedItemColor: kUnselectedGrey,
         currentIndex: 0,
         onTap: (index) {
           setState(() {});
@@ -155,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       children: const [
                         Icon(Icons.medical_services_outlined,
-                            color: Colors.blue),
+                            color: kPrimaryBlue),
                         SizedBox(width: 8),
                         Text("Doctors",
                             style: TextStyle(fontWeight: FontWeight.bold)),
@@ -167,10 +209,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // ✅ زر المفضلة
                   IconButton(
-                    icon: const Icon(Icons.favorite_border),
+                    icon: Icon(
+                      selectedFilter == 'fav' ? Icons.favorite : Icons.favorite_border,
+                      color: selectedFilter == 'fav' ? Colors.red : Theme.of(context).iconTheme.color,
+                    ),
                     onPressed: () {
-                      //print("فتح المفضلة");
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => FavoritesScreen()));
+                      setState(() {
+                        selectedFilter = selectedFilter == 'fav' ? null : 'fav';
+                      });
                     },
                   ),
 
@@ -210,10 +256,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: isSelected
-                          ? Colors.blue
+                          ? kPrimaryBlue
                           : Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.blue.shade100),
+                      border: Border.all(color: kPrimaryBlue.withOpacity(0.2)),
                     ),
                     child: Text(
                       dates[index],
@@ -239,8 +285,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? const Color(0xFF23262F)
-                      : const Color(0xFFE9EEFF),
+                      ? kDarkCard
+                      : kLightCard,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -289,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
-                children: doctors
+                children: filteredDoctors
                     .map((doctor) => doctorCard(context, doctor))
                     .toList(),
               ),
@@ -303,6 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
 // 📦 عنصر واجهة لعرض بطاقة دكتور
   Widget doctorCard(BuildContext context, Doctor doctor) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isFavorite = favoriteDoctorNames.contains(doctor.name);
     return InkWell(
       onTap: () {
         // الانتقال إلى صفحة تفاصيل الدكتور
@@ -319,8 +366,8 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: isDark
-              ? const Color(0xFF23262F)
-              : const Color(0xFFF3F6FD), // <-- updated
+              ? kDarkCard
+              : kLightCard,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -380,12 +427,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Theme.of(context).textTheme.bodyLarge?.color,
                         ),
                       ),
-
                       const Spacer(),
-
-                      // أيقونة المفضلة والاستفسار
-                      Icon(Icons.favorite_border,
-                          color: Theme.of(context).iconTheme.color),
+                      IconButton(
+                        icon: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : Theme.of(context).iconTheme.color,
+                        ),
+                        tooltip: isFavorite ? 'Remove from favorites' : 'Add to favorites',
+                        onPressed: () {
+                          _toggleFavorite(doctor.name);
+                        },
+                      ),
                       const SizedBox(width: 6),
                       Icon(Icons.help_outline,
                           color: Theme.of(context).iconTheme.color),
