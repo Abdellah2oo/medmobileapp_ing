@@ -13,6 +13,7 @@ dependencies:
   flutter_riverpod: ^2.6.1  
   sqflite: ^2.4.1
   shared_preferences: ^2.5.3
+  webview_flutter: ^4.0.7
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -24,6 +25,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/index.html
 
 flutter_icons:
   android: true

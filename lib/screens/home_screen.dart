@@ -4,6 +4,7 @@ import 'package:medmobileapp_ing/models/doctor.dart';
 import 'package:medmobileapp_ing/screens/Doctors/doctor_info_screen.dart';
 import 'package:medmobileapp_ing/screens/Doctors/doctors.dart';
 import 'package:medmobileapp_ing/screens/Profile&Settings/profile.dart';
+import 'package:medmobileapp_ing/screens/chatbot_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'appointments_screen.dart';
@@ -73,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      favoriteDoctorNames = prefs.getStringList('favoriteDoctors')?.toSet() ?? {};
+      favoriteDoctorNames =
+          prefs.getStringList('favoriteDoctors')?.toSet() ?? {};
     });
   }
 
@@ -165,8 +167,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton(
                     icon: const Icon(Icons.notifications_none),
                     onPressed: () {
-                      //  print("فتح الإشعارات");
-                      // Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationsScreen()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChatbotScreen()),
+                      );
                     },
                   ),
 
@@ -210,8 +215,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   // ✅ زر المفضلة
                   IconButton(
                     icon: Icon(
-                      selectedFilter == 'fav' ? Icons.favorite : Icons.favorite_border,
-                      color: selectedFilter == 'fav' ? Colors.red : Theme.of(context).iconTheme.color,
+                      selectedFilter == 'fav'
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: selectedFilter == 'fav'
+                          ? Colors.red
+                          : Theme.of(context).iconTheme.color,
                     ),
                     onPressed: () {
                       setState(() {
@@ -365,9 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
         margin: const EdgeInsets.symmetric(vertical: 8),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isDark
-              ? kDarkCard
-              : kLightCard,
+          color: isDark ? kDarkCard : kLightCard,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -431,9 +438,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         icon: Icon(
                           isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : Theme.of(context).iconTheme.color,
+                          color: isFavorite
+                              ? Colors.red
+                              : Theme.of(context).iconTheme.color,
                         ),
-                        tooltip: isFavorite ? 'Remove from favorites' : 'Add to favorites',
+                        tooltip: isFavorite
+                            ? 'Remove from favorites'
+                            : 'Add to favorites',
                         onPressed: () {
                           _toggleFavorite(doctor.name);
                         },

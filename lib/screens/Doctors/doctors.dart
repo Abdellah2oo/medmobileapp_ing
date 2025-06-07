@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:medmobileapp_ing/app_colors.dart';
 import 'package:medmobileapp_ing/models/doctor.dart';
 import 'package:medmobileapp_ing/screens/Doctors/doctor_info_screen.dart';
+import 'package:medmobileapp_ing/screens/Doctors/shedule_screen.dart';
 import 'package:medmobileapp_ing/screens/home_screen.dart';
 import 'package:medmobileapp_ing/screens/Profile&Settings/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +30,8 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
   Future<void> _loadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      favoriteDoctorNames = prefs.getStringList('favoriteDoctors')?.toSet() ?? {};
+      favoriteDoctorNames =
+          prefs.getStringList('favoriteDoctors')?.toSet() ?? {};
     });
   }
 
@@ -52,7 +54,8 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
       if (selectedFilter == null) return true;
       if (selectedFilter == 'male') return doctor.sex == 'M';
       if (selectedFilter == 'female') return doctor.sex == 'F';
-      if (selectedFilter == 'fav') return favoriteDoctorNames.contains(doctor.name);
+      if (selectedFilter == 'fav')
+        return favoriteDoctorNames.contains(doctor.name);
       return true;
     }).toList();
 
@@ -95,8 +98,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                 ),
                 const SizedBox(width: 16),
                 IconButton(
-                  icon: Icon(
-                      Icons.favorite,
+                  icon: Icon(Icons.favorite,
                       color: selectedFilter == 'fav'
                           ? kPrimaryBlue
                           : kUnselectedGrey),
@@ -108,8 +110,7 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(
-                      Icons.male,
+                  icon: Icon(Icons.male,
                       color: selectedFilter == 'male'
                           ? kPrimaryBlue
                           : kUnselectedGrey),
@@ -121,17 +122,15 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(
-                      Icons.female,
+                  icon: Icon(Icons.female,
                       color: selectedFilter == 'female'
                           ? kPrimaryBlue
                           : kUnselectedGrey),
                   tooltip: 'Female',
                   onPressed: () {
                     setState(() {
-                      selectedFilter = selectedFilter == 'female'
-                          ? null
-                          : 'female';
+                      selectedFilter =
+                          selectedFilter == 'female' ? null : 'female';
                     });
                   },
                 ),
@@ -200,7 +199,16 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                                     IconButton(
                                       icon: const Icon(Icons.calendar_month,
                                           color: kPrimaryBlue),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  ScheduleAppointmentWidget(
+                                                    doctor: doctor,
+                                                  )),
+                                        );
+                                      },
                                       tooltip: 'Book',
                                     ),
                                     const SizedBox(width: 10),
@@ -212,7 +220,8 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                DoctorInfoScreen(doctor: doctor),
+                                                DoctorInfoScreen(
+                                                    doctor: doctor),
                                           ),
                                         );
                                       },
@@ -225,7 +234,9 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
                                         isFavorite
                                             ? Icons.favorite
                                             : Icons.favorite_border,
-                                        color: isFavorite ? Colors.red : kUnselectedGrey,
+                                        color: isFavorite
+                                            ? Colors.red
+                                            : kUnselectedGrey,
                                       ),
                                       tooltip: isFavorite
                                           ? 'Remove from favorites'
