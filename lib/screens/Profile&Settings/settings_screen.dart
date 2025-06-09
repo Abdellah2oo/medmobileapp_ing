@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:medmobileapp_ing/app_colors.dart';
-
-import '../../main.dart'; // Import where themeProvider is defined
+import 'package:medmobileapp_ing/core/providers/theme_provider.dart';
 import 'notification_settings_screen.dart';
 import 'password_manager_screen.dart';
 

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'screens/home_screen.dart';
 import 'app_colors.dart';
-
-// Provider للثيم
-final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
-  (ref) => ThemeNotifier(),
-);
+import 'auth_gate.dart';
+import 'core/providers/theme_provider.dart';
 
 void main() {
   runApp(const ProviderScope(child: MedicalApp()));
@@ -97,24 +93,7 @@ class MedicalApp extends ConsumerWidget {
         bottomNavigationBarTheme: bottomBarDark,
       ),
       themeMode: themeMode,
-      home: const HomeScreen(),
+      home: const AuthGate(),
     );
-  }
-}
-
-// إدارة حالة الثيم
-class ThemeNotifier extends StateNotifier<ThemeMode> {
-  ThemeNotifier() : super(ThemeMode.system); // البدء بثيم النظام
-
-  void toggleTheme() {
-    state = state == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-  }
-
-  void setTheme(ThemeMode mode) {
-    state = mode;
-  }
-
-  void setSystemTheme() {
-    state = ThemeMode.system;
   }
 }

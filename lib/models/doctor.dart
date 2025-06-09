@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 
 @immutable
@@ -41,7 +40,6 @@ class Doctor {
     );
   }
 
-  // Factory constructor for JSON deserialization
   factory Doctor.fromJson(Map<String, dynamic> json) {
     return Doctor(
       name: json['name'] as String,
@@ -56,7 +54,6 @@ class Doctor {
     );
   }
 
-  // Method for JSON serialization
   Map<String, dynamic> toJson() {
     return {
       'name': name,

@@ -54,8 +54,9 @@ class _DoctorsScreenState extends State<DoctorsScreen> {
       if (selectedFilter == null) return true;
       if (selectedFilter == 'male') return doctor.sex == 'M';
       if (selectedFilter == 'female') return doctor.sex == 'F';
-      if (selectedFilter == 'fav')
+      if (selectedFilter == 'fav') {
         return favoriteDoctorNames.contains(doctor.name);
+      }
       return true;
     }).toList();
 

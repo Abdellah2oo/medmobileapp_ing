@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // ✅ زر الإشعارات
                   IconButton(
-                    icon: const Icon(Icons.notifications_none),
+                    icon: const Icon(Icons.bubble_chart_sharp),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -192,24 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Row(
                 children: [
-                  // ✅ زر Doctors
-                  InkWell(
-                    onTap: () {
-                      //print("فتح قائمة الأطباء");
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (_) => DoctorsScreen()));
-                    },
-                    child: Row(
-                      children: const [
-                        Icon(Icons.medical_services_outlined,
-                            color: kPrimaryBlue),
-                        SizedBox(width: 8),
-                        Text("Doctors",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ),
-
                   const Spacer(),
 
                   // ✅ زر المفضلة

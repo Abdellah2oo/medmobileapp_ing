@@ -9,7 +9,6 @@ class NavigationNotifier extends StateNotifier<int> {
   }
 }
 
-// Provider for the NavigationNotifier
 final navigationProvider = StateNotifierProvider<NavigationNotifier, int>((ref) {
   return NavigationNotifier();
 });
